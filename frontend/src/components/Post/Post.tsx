@@ -8,9 +8,20 @@ interface PostProps {
   tags: string[];
   classes: string;
   imgClasses: string;
+  textClasses?: string;
+  titleClasses?: string;
 }
 
-const Post: React.FC<PostProps> = ({ image, avatar, title, tags, classes, imgClasses }) => {
+const Post: React.FC<PostProps> = ({
+  image,
+  avatar,
+  title,
+  tags,
+  classes,
+  imgClasses,
+  textClasses,
+  titleClasses,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [tagColors, setTagColors] = useState<string[]>([]);
 
@@ -51,23 +62,20 @@ const Post: React.FC<PostProps> = ({ image, avatar, title, tags, classes, imgCla
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <img src={image} className={`${imgClasses} h-full w-full object-cover `} />
-      <div className="p-7 gap-y-5 flex flex-col">
+      <img
+        src={image}
+        className={`${imgClasses} h-full w-full object-cover `}
+      />
+      <div className={`py-9 px-7 gap-y-5 flex flex-col ${textClasses}`}>
         <div className="flex gap-x-3 items-center">
-          <img src={avatar} className={`h-10 rounded-3xl`}  />
+          <img src={avatar} className={`h-10 rounded-3xl`} />
           <span className="font-medium">HispterJo</span>
         </div>
-        <h2 className="font-bold text-2xl">{title}</h2>
+        <h2 className={`font-bold text-2xl ${titleClasses}`}>{title}</h2>
         <div className="flex gap-x-5">
           {tags.map((el, index) => (
             <div className="flex gap-x-1 items-center" key={index}>
-              <span
-                style={{ color: tagColors[index] }}
-                className="text-xl font-bold"
-              >
-                •
-              </span>
-              {el}
+              # {el}
             </div>
           ))}
         </div>

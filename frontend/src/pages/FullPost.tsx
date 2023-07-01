@@ -3,7 +3,7 @@ import image from "../../src/assets/image.webp";
 import avatar from "../../src/assets/avatar.jpg";
 import { AiOutlineEye, AiOutlineComment } from "react-icons/ai";
 import { CommentsBlock } from "../components";
-import { Index } from "../components/AddComment";
+import AddComment  from "../components/AddComment";
 
 const tags = ["аниме", "коносуба"];
 
@@ -107,7 +107,7 @@ const FullPost: FC = () => {
         ]}
         isLoading={false}
       >
-        <Index />
+        <AddComment />
       </CommentsBlock>
     </div>
   );

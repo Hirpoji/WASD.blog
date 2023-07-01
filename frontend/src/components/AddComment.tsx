@@ -1,7 +1,7 @@
 import React from "react";
-import Button from "../UI/Button";
+import Button from "./UI/Button";
 
-export const Index = () => {
+export default () => {
   return (
     <div className="w-full flex flex-col gap-y-5 mt-5">
       <textarea
@@ -10,7 +10,7 @@ export const Index = () => {
         rows={3}
       />
       <div className="flex justify-end">
-        <Button classes="bg-black text-white px-4 py-2 rounded-3xl" onclick={()=>{return 0}}>
+        <Button classes="!bg-black text-white px-4 py-2 rounded-3xl" onclick={()=>{return 0}}>
           Отправить
         </Button>
       </div>
