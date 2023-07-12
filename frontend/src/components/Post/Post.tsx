@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AiOutlineEye } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { ObjectId } from "mongodb";
 
 interface PostProps {
-  image: string;
-  avatar: string;
+  _id: ObjectId;
+  imageUrl: string;
+  user: {
+    avatarUrl: string;
+    fullName: string;
+  };
   title: string;
+  text: string;
   tags: string[];
+  viewsCount: string;
+  createdAt: string;
   classes: string;
   imgClasses: string;
   textClasses?: string;
@@ -13,63 +22,36 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({
-  image,
-  avatar,
+  _id,
+  imageUrl,
+  user,
   title,
   tags,
+  createdAt,
+  viewsCount,
   classes,
   imgClasses,
   textClasses,
   titleClasses,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [tagColors, setTagColors] = useState<string[]>([]);
-
-  useEffect(() => {
-    const generateTagColors = () => {
-      const colors = tags.map(() => getRandomColor());
-      setTagColors(colors);
-    };
-
-    generateTagColors();
-  }, [tags]);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const getRandomColor = () => {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgb(${r}, ${g}, ${b})`;
-  };
-
-  const postStyle = {
-    transform: isHovered ? "translateY(-5px)" : "none",
-    boxShadow: isHovered ? "0 4px 6px rgba(0, 0, 0, 0.1)" : "none",
-    transition: "transform 0.3s, box-shadow 0.3s",
-  };
-
   return (
-    <div
-      className={` bg-white rounded-2xl ${classes}`}
-      style={postStyle}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <Link
+      to={`/post/:id`}
+      className={`bg-white rounded-2xl ${classes}`}
     >
       <img
-        src={image}
-        className={`${imgClasses} h-full w-full object-cover `}
+        src={imageUrl}
+        className={`${imgClasses} h-full w-full object-cover`}
       />
       <div className={`py-9 px-7 gap-y-5 flex flex-col ${textClasses}`}>
         <div className="flex gap-x-3 items-center">
-          <img src={avatar} className={`h-10 rounded-3xl`} />
-          <span className="font-medium">HispterJo</span>
+          <div className="w-[32px] h-[32px] overflow-hidden">
+            <img
+              src={user.avatarUrl}
+              className="rounded-full w-full h-full object-fit"
+            />
+          </div>
+          <span className="font-medium">{user.fullName}</span>
         </div>
         <h2 className={`font-bold text-2xl ${titleClasses}`}>{title}</h2>
         <div className="flex gap-x-5">
@@ -82,12 +64,12 @@ const Post: React.FC<PostProps> = ({
         <div className="flex justify-between">
           <div className="flex items-center gap-x-2">
             <AiOutlineEye />
-            <span className="text-sm">152</span>
+            <span className="text-sm">{viewsCount}</span>
           </div>
-          <span className="text-sm">12.02.2023 г.</span>
+          <span className="text-sm">{createdAt.replace(/T.*/, "")}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

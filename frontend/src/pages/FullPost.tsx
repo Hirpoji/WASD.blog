@@ -3,27 +3,11 @@ import image from "../../src/assets/image.webp";
 import avatar from "../../src/assets/avatar.jpg";
 import { AiOutlineEye, AiOutlineComment } from "react-icons/ai";
 import { CommentsBlock } from "../components";
-import AddComment  from "../components/AddComment";
+import AddComment from "../components/AddComment";
 
 const tags = ["аниме", "коносуба"];
 
-const getRandomColor = () => {
-  const r = Math.floor(Math.random() * 256);
-  const g = Math.floor(Math.random() * 256);
-  const b = Math.floor(Math.random() * 256);
-  return `rgb(${r}, ${g}, ${b})`;
-};
-
 const FullPost: FC = () => {
-  useEffect(() => {
-    const generateTagColors = () => {
-      const colors = tags.map(() => getRandomColor());
-      setTagColors(colors);
-    };
-
-    generateTagColors();
-  }, [tags]);
-  const [tagColors, setTagColors] = useState<string[]>([]);
   return (
     <div className="flex flex-col gap-y-20">
       <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-20">
@@ -39,13 +23,7 @@ const FullPost: FC = () => {
         <div className="flex gap-x-5 text-gray-600">
           {tags.map((el, index) => (
             <div className="flex gap-x-1 items-center" key={index}>
-              <span
-                style={{ color: tagColors[index] }}
-                className="text-xl font-bold"
-              >
-                •
-              </span>
-              {el}
+              # {el}
             </div>
           ))}
           <span>|</span>

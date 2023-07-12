@@ -1,21 +1,27 @@
+import Button from "../components/UI/Button";
+
 export default () => {
   return (
-    <div className="w-400 mx-auto p-50 border-1 border-gray-300 my-50">
-      <h5 className="text-center font-bold mb-30">Вход в аккаунт</h5>
+    <div className="flex flex-col gap-y-6 p-20 rounded-lg mx-auto bg-white max-w-xl">
+      <h5 className="text-center font-bold text-2xl mb-6">Вход в аккаунт</h5>
       <input
-        className="border border-red-500 mb-20 p-2 w-full"
+        className="border mb-4  border-gray-300 p-3 rounded-lg m-auto max-w-lg w-full"
         type="text"
         placeholder="E-Mail"
       />
-      <p className="text-red-500 text-sm mb-4">Неверно указана почта</p>
       <input
-        className="border border-gray-400 mb-4 p-2 w-full"
+        className="border mb-4  border-gray-300 p-3 rounded-lg m-auto max-w-lg w-full"
         type="password"
         placeholder="Пароль"
       />
-      <button className="bg-blue-500 text-white rounded-md py-2 px-4 w-full">
-        Войти
-      </button>
+      <div className="flex justify-end m-auto max-w-lg w-full">
+        <Button
+          classes="!bg-black text-white py-2 px-5 w-fit"
+          onclick={() => {}}
+        >
+          Войти
+        </Button>
+      </div>
     </div>
   );
 };

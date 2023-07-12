@@ -1,8 +1,8 @@
-import  { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FC } from "react";
 
-export const AddPost = () => {
-  const imageUrl = '';
-  const [value, setValue] = useState('');
+const AddPost : FC = () => {
+  const imageUrl = "";
+  const [value, setValue] = useState("");
 
   const handleChangeFile = () => {};
 
@@ -19,18 +19,33 @@ export const AddPost = () => {
       </button>
       <input type="file" onChange={handleChangeFile} hidden />
       {imageUrl && (
-        <button className="button bg-red-500 text-white rounded-md py-2 px-4 mb-4" onClick={onClickRemoveImage}>
+        <button
+          className="button bg-red-500 text-white rounded-md py-2 px-4 mb-4"
+          onClick={onClickRemoveImage}
+        >
           Удалить
         </button>
       )}
       {imageUrl && (
-        <img className="image w-full" src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
+        <img
+          className=" w-full"
+          src={`http://localhost:4444${imageUrl}`}
+          alt="Uploaded"
+        />
       )}
       <br />
       <br />
-      <input className="textfield w-full text-xl font-bold mb-4" type="text" placeholder="Заголовок статьи..." />
+      <input
+        className="textfield w-full text-xl font-bold mb-4"
+        type="text"
+        placeholder="Заголовок статьи..."
+      />
       <input className="textfield w-full mb-4" type="text" placeholder="Тэги" />
-      <textarea className="editor w-full mb-4 p-4 bg-gray-200 text-xl" value={value} onChange={onChange}></textarea>
+      <textarea
+        className="editor w-full mb-4 p-4 bg-gray-200 text-xl"
+        value={value}
+        onChange={onChange}
+      ></textarea>
       <div className="buttons">
         <button className="button bg-blue-500 text-white rounded-md py-2 px-4 mr-4">
           Опубликовать
@@ -44,3 +59,5 @@ export const AddPost = () => {
     </div>
   );
 };
+
+export default AddPost;

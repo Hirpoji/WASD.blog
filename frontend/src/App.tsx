@@ -1,7 +1,8 @@
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import FullPost from "./pages/FullPost";
 import Home from "./pages/Home";
-import { AddPost } from "./pages/AddPost";
+import AddPost from "./pages/AddPost";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 
@@ -11,11 +12,13 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Header />
         <div className="flex-grow mb-20">
-          {/* <Home /> */}
-          {/* <FullPost /> */}
-          {/* <AddPost /> */}
-          {/* <Login/> */}
-          <Registration/>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/post/:id" element={<FullPost />} />
+            <Route path="/addpost" element={<AddPost />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+          </Routes>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import Auth from "./Auth";
 import AccountPanel from "./AccountPanel";
 
 const Header: FC = () => {
-  const isAuth = true;
+  const isAuth = false;
 
   return (
     <div className="mb-10">

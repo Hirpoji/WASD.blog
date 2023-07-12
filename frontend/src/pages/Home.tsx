@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState} from "react";
 import SwitchButtons from "../components/UI/SwitchButton";
 import PostList from "../components/Post/PostList";
 
@@ -16,7 +16,6 @@ const Home: FC = () => {
           onClickType={(name: string) => setValue(name)}
           classes="col-start-1 col-end-13"
         />
-       
       </div>
       <PostList />
     </div>
