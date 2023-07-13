@@ -13,6 +13,7 @@ import {
   create,
   getAll,
   getOne,
+  getTags,
   remove,
   update,
 } from "./controllers/PostContoller.js";
@@ -48,7 +49,7 @@ app.use("/uploads", express.static("uploads"));
 
 const port = 5554;
 
-app.get("/", (req, res) => res.json("hello"));
+app.get("/posts/tags", getTags);
 
 app.post("/auth/login", loginValidator, handleValidationsError, login);
 

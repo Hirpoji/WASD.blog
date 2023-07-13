@@ -34,16 +34,18 @@ const Post: React.FC<PostProps> = ({
   textClasses,
   titleClasses,
 }) => {
+
+
   return (
     <Link
-      to={`/post/:id`}
+      to={`/post/${_id}`}
       className={`bg-white rounded-2xl ${classes}`}
     >
       <img
         src={imageUrl}
         className={`${imgClasses} h-full w-full object-cover`}
       />
-      <div className={`py-9 px-7 gap-y-5 flex flex-col ${textClasses}`}>
+      <div className={`py-6 px-7 gap-y-5 flex flex-col ${textClasses}`}>
         <div className="flex gap-x-3 items-center">
           <div className="w-[32px] h-[32px] overflow-hidden">
             <img
@@ -55,9 +57,9 @@ const Post: React.FC<PostProps> = ({
         </div>
         <h2 className={`font-bold text-2xl ${titleClasses}`}>{title}</h2>
         <div className="flex gap-x-5">
-          {tags.map((el, index) => (
+          {tags.map((tag, index) => (
             <div className="flex gap-x-1 items-center" key={index}>
-              # {el}
+              # {tag.charAt(0).toLowerCase() + tag.slice(1)}
             </div>
           ))}
         </div>

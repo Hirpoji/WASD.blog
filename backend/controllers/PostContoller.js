@@ -1,5 +1,15 @@
 import PostModel from "../models/Post.js";
 
+export const getTags = async (req, res) => {
+  try {
+    const posts = await PostModel.find().exec();
+    const tags = posts.map(obj=> obj.tags).flat().slice();
+    res.json(tags);
+  } catch (error) {
+    return res.json({ massege: "Не удалось получить статьи" });
+  }
+}
+
 export const create = async (req, res) => {
   try {
     const doc = new PostModel({
@@ -34,7 +44,7 @@ export const getOne = async (req, res) => {
       { _id: postId },
       { $inc: { viewsCount: 1 } },
       { new: true }
-    );
+    ).populate("user").exec();
 
     if (!updatedPost) {
       return res.status(404).json({ message: "Статья не найдена" });

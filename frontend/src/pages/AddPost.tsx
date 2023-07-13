@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FC } from "react";
 
-const AddPost : FC = () => {
+const AddPost: FC = () => {
   const imageUrl = "";
   const [value, setValue] = useState("");
 
@@ -13,7 +13,7 @@ const AddPost : FC = () => {
   };
 
   return (
-    <div className=" p-4">
+    <div className="p-4">
       <button className="button border border-gray-400 rounded-md py-2 px-4 text-lg mb-4">
         Загрузить превью
       </button>

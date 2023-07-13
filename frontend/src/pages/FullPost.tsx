@@ -1,64 +1,89 @@
 import { FC, useEffect, useState } from "react";
 import image from "../../src/assets/image.webp";
-import avatar from "../../src/assets/avatar.jpg";
 import { AiOutlineEye, AiOutlineComment } from "react-icons/ai";
 import { CommentsBlock } from "../components";
 import AddComment from "../components/AddComment";
+import { useParams } from "react-router-dom";
+import axios from "../axios";
+import { ClipLoader } from "react-spinners";
 
-const tags = ["аниме", "коносуба"];
+
+interface Post {
+  title: string;
+  user: {
+    avatarUrl: string;
+    fullName: string;
+  };
+  text: string;
+  tags: Array<string>;
+  viewsCount: string;
+  createdAt: string;
+  imageUrl: string;
+}
 
 const FullPost: FC = () => {
+  const [post, setPost] = useState<Post>({
+    title: "",
+    user: { avatarUrl: "", fullName: "" },
+    text: "",
+    viewsCount:"",
+    createdAt:"",
+    tags:[],
+    imageUrl: "",
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams();
+
+
+  useEffect(() => {
+    axios
+      .get(`/posts/${id}`)
+      .then((res) => {
+        setPost(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.warn(err);
+        console.log(1);
+      });
+  }, [id]);
+
+
+  if (isLoading) {
+    return (
+      <div className="flex col-start-1 col-end-13 justify-center mt-20">
+        <ClipLoader color="#000000" loading={true} size={100} className="" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-y-20">
       <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-20">
         <h1 className="font-extrabold text-4xl leading-14 text-black col-span-12">
-          Третий сезон аниме-сериала «Этот замечательный мир!» (KonoSuba)
-          стартует в 2024
+          {post.title}
         </h1>
         <div className="flex gap-x-3 items-center">
-          <img src={avatar} className={`h-10 rounded-3xl`} />
-          <span className="font-medium">HispterJo</span>
+          <img src={post.user.avatarUrl} className={`h-10 rounded-3xl w-10 object-fit`} />
+          <span className="font-medium">{post.user.fullName}</span>
         </div>
 
         <div className="flex gap-x-5 text-gray-600">
-          {tags.map((el, index) => (
+          {post.tags.map((tag, index) => (
             <div className="flex gap-x-1 items-center" key={index}>
-              # {el}
+              # {tag.charAt(0).toLowerCase() + tag.slice(1)}
             </div>
           ))}
           <span>|</span>
-          <div className="flex items-center">12.02.2023 г.</div>
+          <div className="flex items-center">{post.createdAt.replace(/T.*/, "")}</div>
         </div>
-        <img src={image} className={` h-full w-full object-cover rounded-xl`} />
-        <div className="text-xl">
-          <p>
-            Третий сезон шоу анонсировали в мае 2022 года, однако с тех пор
-            новостей о нём не было. В июне 2023-го студия Drive сообщила в своём
-            твиттере, что третий сезон «Этого замечательного мира!» стартует в
-            2024-м, однако когда именно состоится выход первого эпизода, не
-            сказала.
-          </p>
-          <br></br>
-          <p>
-            Авторы поделились постером, на котором изображены главные герои
-            тайтла, отправляющиеся в очередное приключение. Сюжет KonoSuba
-            рассказывает о 16-летнем школьнике-хикикомори Кадзуме Сато, который
-            после нелепой смерти перемещается из реального мира в фэнтезийную
-            вселенную, основанную на принципах MMORPG.
-          </p>
-          <br></br>
-          <p>
-            Первые две части аниме-сериала получили довольно высокие оценки от
-            зрителей — на сайте MyAnimeList у них 8,11 балла и 8,27 балла из 10
-            соответственно. На момент написания заметки подошёл к концу спин-офф
-            под названием «Одаривая этот замечательный мир взрывами!» (Kono
-            Subarashii Sekai ni Bakuen wo!) о волшебнице Мегумин.
-          </p>
-        </div>
+        <img src={post.imageUrl} className={` h-full w-full object-cover rounded-xl`} />
+        <div className="text-xl">{post.text}</div>
         <div className="flex items-center gap-x-5">
           <div className="flex items-center gap-x-2">
             <AiOutlineEye />
-            <span className="text-sm">152</span>
+            <span className="text-sm">{post.viewsCount}</span>
           </div>
           <div className="flex items-center gap-x-2">
             <AiOutlineComment />

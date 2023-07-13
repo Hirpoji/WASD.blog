@@ -14,7 +14,7 @@ function App() {
         <div className="flex-grow mb-20">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/post/:id" element={<FullPost />} />
+            <Route path={`/post/:id`} element={<FullPost />} />
             <Route path="/addpost" element={<AddPost />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />

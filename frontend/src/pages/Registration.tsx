@@ -1,6 +1,7 @@
+import { FC } from "react";
 import Button from "../components/UI/Button";
 
-export default () => {
+const Registration : FC = () => {
   return (
     <div className="flex flex-col gap-y-6 p-20 rounded-lg mx-auto  bg-white max-w-xl">
       <h5 className="text-center font-bold text-2xl mb-6">Создание аккаунта</h5>
@@ -33,3 +34,5 @@ export default () => {
     </div>
   );
 };
+
+export default Registration;
