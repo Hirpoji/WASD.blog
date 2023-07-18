@@ -1,12 +1,11 @@
 import { FC, useEffect, useState } from "react";
-import image from "../../src/assets/image.webp";
 import { AiOutlineEye, AiOutlineComment } from "react-icons/ai";
 import { CommentsBlock } from "../components";
 import AddComment from "../components/AddComment";
 import { useParams } from "react-router-dom";
 import axios from "../axios";
 import { ClipLoader } from "react-spinners";
-
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 interface Post {
   title: string;
@@ -26,15 +25,14 @@ const FullPost: FC = () => {
     title: "",
     user: { avatarUrl: "", fullName: "" },
     text: "",
-    viewsCount:"",
-    createdAt:"",
-    tags:[],
+    viewsCount: "",
+    createdAt: "",
+    tags: [],
     imageUrl: "",
   });
 
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
-
 
   useEffect(() => {
     axios
@@ -48,7 +46,6 @@ const FullPost: FC = () => {
         console.log(1);
       });
   }, [id]);
-
 
   if (isLoading) {
     return (
@@ -65,7 +62,10 @@ const FullPost: FC = () => {
           {post.title}
         </h1>
         <div className="flex gap-x-3 items-center">
-          <img src={post.user.avatarUrl} className={`h-10 rounded-3xl w-10 object-fit`} />
+          <img
+            src={post.user.avatarUrl ? `http://127.0.0.1:5554/${post.user.avatarUrl}` : ""}
+            className={`h-10 rounded-3xl w-10 object-fit`}
+          />
           <span className="font-medium">{post.user.fullName}</span>
         </div>
 
@@ -76,10 +76,15 @@ const FullPost: FC = () => {
             </div>
           ))}
           <span>|</span>
-          <div className="flex items-center">{post.createdAt.replace(/T.*/, "")}</div>
+          <div className="flex items-center">
+            {post.createdAt.replace(/T.*/, "")}
+          </div>
         </div>
-        <img src={post.imageUrl} className={` h-full w-full object-cover rounded-xl`} />
-        <div className="text-xl">{post.text}</div>
+        <img
+          src={`http://127.0.0.1:5554/${post.imageUrl}`}
+          className={` h-full w-full object-cover rounded-xl`}
+        />
+        <ReactMarkdown children={post.text} className="text-xl"></ReactMarkdown>
         <div className="flex items-center gap-x-5">
           <div className="flex items-center gap-x-2">
             <AiOutlineEye />

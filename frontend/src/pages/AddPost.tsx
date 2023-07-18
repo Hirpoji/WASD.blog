@@ -1,59 +1,146 @@
-import { useState, ChangeEvent, FC } from "react";
+import { useState, useCallback, useMemo, useRef } from "react";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
+import Button from "../components/UI/Button";
+import { useSelector } from "react-redux";
+import { selectIsAuth } from "../redux/Slices/auth";
+import { useNavigate, Navigate } from "react-router-dom";
+import axios from "../axios";
 
-const AddPost: FC = () => {
-  const imageUrl = "";
-  const [value, setValue] = useState("");
+interface AddPostProps {}
 
-  const handleChangeFile = () => {};
+const AddPost: React.FC<AddPostProps> = () => {
+  const isAuth = useSelector(selectIsAuth);
 
-  const onClickRemoveImage = () => {};
+  if (!window.localStorage.getItem("token") && !isAuth) {
+    return <Navigate to="/" />;
+  }
+  const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState("");
+  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
+  const [tags, setTags] = useState("");
+  const inputFileRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
+  const handleChangeFile = async (event) => {
+    try {
+      const formData = new FormData();
+      const file = event.target.files[0];
+      formData.append("image", file);
+      const { data } = await axios.post("/upload", formData);
+      setImageUrl(data.url);
+    } catch (error) {
+      console.warn(error);
+      alert("Ошибка загрузки файла!");
+    }
   };
 
+  const onClickRemoveImage = () => {
+    setImageUrl("");
+  };
+
+  const onChange = useCallback((text: string) => {
+    setText(text);
+  }, []);
+
+  const onSubmit = async () => {
+    try {
+      setIsLoading(true);
+
+      const fields = {
+        title,
+        imageUrl,
+        tags: tags.split(" "),
+        text,
+      };
+
+      const { data } = await axios.post("/posts", fields);
+
+      const id = data._id;
+
+      console.log(id);
+
+      navigate(`/post/${id}`);
+    } catch (error) {
+      console.warn(error);
+      alert("Не удалось опубликовать пост");
+    }
+  };
+
+  const options = useMemo(
+    () => ({
+      spellChecker: false,
+      maxHeight: "400px",
+      autofocus: true,
+      placeholder: "Введите текст...",
+      status: false,
+      autosave: {
+        enabled: true,
+        delay: 1000,
+      },
+    }),
+    []
+  );
+
   return (
-    <div className="p-4">
-      <button className="button border border-gray-400 rounded-md py-2 px-4 text-lg mb-4">
-        Загрузить превью
-      </button>
-      <input type="file" onChange={handleChangeFile} hidden />
-      {imageUrl && (
-        <button
-          className="button bg-red-500 text-white rounded-md py-2 px-4 mb-4"
-          onClick={onClickRemoveImage}
+    <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-20">
+      <div className="flex gap-x-4">
+        <Button
+          classes="border mb-4 bg-black text-white py-2 px-5 w-fit"
+          onclick={() => inputFileRef.current.click()}
         >
-          Удалить
-        </button>
-      )}
+          Загрузить превью
+        </Button>
+        <input
+          ref={inputFileRef}
+          type="file"
+          onChange={handleChangeFile}
+          hidden
+        />
+        {imageUrl && (
+          <Button
+            classes="text-black rounded-md p-2 mb-4"
+            onclick={onClickRemoveImage}
+          >
+            Удалить
+          </Button>
+        )}
+      </div>
+
       {imageUrl && (
         <img
-          className=" w-full"
-          src={`http://localhost:4444${imageUrl}`}
+          className="w-full mb-4"
+          src={`http://127.0.0.1:5554/${imageUrl}`}
           alt="Uploaded"
         />
       )}
-      <br />
-      <br />
       <input
-        className="textfield w-full text-xl font-bold mb-4"
-        type="text"
+        className="border mb-border-gray-300 p-3 rounded-lg m-autow-full border-gray-300"
         placeholder="Заголовок статьи..."
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
       />
-      <input className="textfield w-full mb-4" type="text" placeholder="Тэги" />
-      <textarea
-        className="editor w-full mb-4 p-4 bg-gray-200 text-xl"
-        value={value}
+      <input
+        className="border mb-4 border-gray-300 p-3 rounded-lg m-auto w-full"
+        placeholder="Тэги"
+        onChange={(event) => setTags(event.target.value)}
+      />
+      <SimpleMDE
+        className="mb-4"
+        value={text}
         onChange={onChange}
-      ></textarea>
-      <div className="buttons">
-        <button className="button bg-blue-500 text-white rounded-md py-2 px-4 mr-4">
+        options={options as any}
+      />
+      <div className="flex gap-x-5">
+        <Button
+          classes="border mb-4 bg-black text-white py-2 px-5 w-fit"
+          onclick={onSubmit}
+        >
           Опубликовать
-        </button>
+        </Button>
         <a href="/">
-          <button className="button bg-gray-400 text-white rounded-md py-2 px-4">
-            Отмена
-          </button>
+          <Button classes="border rounded-md p-2">Отмена</Button>
         </a>
       </div>
     </div>

@@ -24,5 +24,5 @@ export const postValidator = [
     })
     .isString(),
   body("tags", "Неверный формат тэгов (укажите массив)").optional().isArray(),
-  body("imageUrl", "Неверный формат ссылки на изображение").optional().isURL(),
+  body("imageUrl", "Неверный формат ссылки на изображение").optional(),
 ];

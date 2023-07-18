@@ -42,14 +42,14 @@ const Post: React.FC<PostProps> = ({
       className={`bg-white rounded-2xl ${classes}`}
     >
       <img
-        src={imageUrl}
+        src={imageUrl ? `http://127.0.0.1:5554/${imageUrl}` : ""}
         className={`${imgClasses} h-full w-full object-cover`}
       />
       <div className={`py-6 px-7 gap-y-5 flex flex-col ${textClasses}`}>
         <div className="flex gap-x-3 items-center">
           <div className="w-[32px] h-[32px] overflow-hidden">
             <img
-              src={user.avatarUrl}
+               src={`http://127.0.0.1:5554/${user.avatarUrl}`}
               className="rounded-full w-full h-full object-fit"
             />
           </div>

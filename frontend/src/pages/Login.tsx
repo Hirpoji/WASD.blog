@@ -1,9 +1,9 @@
-import React, { useState, FC } from "react";
+import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/UI/Button";
 import { fetchAuth, selectIsAuth } from "../redux/Slices/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const Login: FC = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -21,12 +21,20 @@ const Login: FC = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data: { email: string; password: string }) => {
-    if (!data.email || !data.password) {
+  const onSubmit = async (values: { email: string; password: string }) => {
+    if (!values.email || !values.password) {
       return;
     }
 
-    dispatch(fetchAuth(data) as any);
+    const data = await dispatch(fetchAuth(values) as any);
+
+    if (!data.payload) {
+      return alert("Не удалось авторизоваться");
+    }
+
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+    }
   };
 
   if (isAuth) {
