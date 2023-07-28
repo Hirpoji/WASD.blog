@@ -20,14 +20,19 @@ const AddPost: React.FC<AddPostProps> = () => {
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
-  const inputFileRef = useRef(null);
+  const inputFileRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChangeFile = async (event) => {
+  const handleChangeFile = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     try {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
       const formData = new FormData();
-      const file = event.target.files[0];
       formData.append("image", file);
+
       const { data } = await axios.post("/upload", formData);
       setImageUrl(data.url);
     } catch (error) {
@@ -87,8 +92,8 @@ const AddPost: React.FC<AddPostProps> = () => {
     <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-20">
       <div className="flex gap-x-4">
         <Button
-          classes="border mb-4 bg-black text-white py-2 px-5 w-fit"
-          onclick={() => inputFileRef.current.click()}
+          classes="border mb-4 !bg-black !text-white py-2 px-5 w-fit"
+          onclick={() => inputFileRef.current!.click()}
         >
           Загрузить превью
         </Button>
@@ -134,7 +139,7 @@ const AddPost: React.FC<AddPostProps> = () => {
       />
       <div className="flex gap-x-5">
         <Button
-          classes="border mb-4 bg-black text-white py-2 px-5 w-fit"
+          classes="border mb-4 !bg-black !text-white py-2 px-5 w-fit"
           onclick={onSubmit}
         >
           Опубликовать

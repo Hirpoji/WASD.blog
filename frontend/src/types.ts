@@ -1,11 +1,17 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 
 export interface PostState {
+  _id: ObjectId;
+  tags: Array<string>;
+  createdAt: string;
   title: string;
   text: string;
-  imageUrl : string;
+  imageUrl: string;
   viewsCount: number;
-  user: ObjectId;
+  user: {
+    avatarUrl: string;
+    fullName: string;
+  };
 }
 
 export interface TagState {

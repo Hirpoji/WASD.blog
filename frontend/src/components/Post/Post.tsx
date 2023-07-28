@@ -13,7 +13,7 @@ interface PostProps {
   title: string;
   text: string;
   tags: string[];
-  viewsCount: string;
+  viewsCount: number;
   createdAt: string;
   classes: string;
   imgClasses: string;

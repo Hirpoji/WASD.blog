@@ -92,7 +92,7 @@ const FullPost: FC = () => {
           </div>
           <div className="flex items-center gap-x-2">
             <AiOutlineComment />
-            <span className="text-sm">42</span>
+            <span className="text-sm">1</span>
           </div>
         </div>
       </div>

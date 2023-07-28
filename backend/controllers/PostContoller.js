@@ -29,12 +29,25 @@ export const create = async (req, res) => {
 
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate("user").exec();
+    let sortOrder = req.query.sortOrder;
+    let sortOption = {};
+
+    if (sortOrder === "viewsCount") {
+      sortOption = { viewsCount: -1 }; 
+    } else {
+      sortOption = { createdAt: -1 }; 
+    }
+
+    const posts = await PostModel.find()
+      .populate("user")
+      .sort(sortOption)
+      .exec();
     res.json(posts);
   } catch (error) {
-    return res.json({ massege: "Не удалось получить статьи" });
+    return res.json({ message: "Не удалось получить статьи" });
   }
 };
+
 
 export const getOne = async (req, res) => {
   try {

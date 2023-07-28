@@ -11,10 +11,21 @@ const initialState: PostsState = {
   status: "loading",
 };
 
-export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const { data } = await axios.get("/posts");
-  return data;
-});
+export const fetchPostsByCreatedAt = createAsyncThunk(
+  "posts/fetchPostsByCreatedAt",
+  async () => {
+    const { data } = await axios.get("/posts?sortOrder=createdAt");
+    return data;
+  }
+);
+
+export const fetchPostsByViewsCount = createAsyncThunk(
+  "posts/fetchPostsByViewsCount",
+  async () => {
+    const { data } = await axios.get("/posts?sortOrder=viewsCount");
+    return data;
+  }
+);
 
 const postsSlice = createSlice({
   name: "posts",
@@ -22,15 +33,28 @@ const postsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPosts.pending, (state) => {
+      .addCase(fetchPostsByCreatedAt.pending, (state) => {
         state.items = [];
         state.status = "loading";
       })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
+      .addCase(fetchPostsByCreatedAt.fulfilled, (state, action) => {
         state.items = action.payload;
         state.status = "loaded";
       })
-      .addCase(fetchPosts.rejected, (state) => {
+      .addCase(fetchPostsByCreatedAt.rejected, (state) => {
+        state.items = [];
+        state.status = "error";
+      })
+
+      .addCase(fetchPostsByViewsCount.pending, (state) => {
+        state.items = [];
+        state.status = "loading";
+      })
+      .addCase(fetchPostsByViewsCount.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.status = "loaded";
+      })
+      .addCase(fetchPostsByViewsCount.rejected, (state) => {
         state.items = [];
         state.status = "error";
       });
@@ -38,3 +62,4 @@ const postsSlice = createSlice({
 });
 
 export const postsReducer = postsSlice.reducer;
+export const { actions: postsActions } = postsSlice;
