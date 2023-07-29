@@ -33,10 +33,10 @@ const TagsList: FC = () => {
   }
 
   return (
-    <div className="flex gap-x-5 mb-10 gap-y-10 col-start-1 col-end-13 bg-white rounded-2xl p-20 min-h-screen">
+    <div className="flex gap-x-5 mb-10 gap-y-10 col-start-1 col-end-13 bg-white rounded-2xl p-20  flex-wrap">
       {tags.items.map((tag) => (
-        <div className="border border-black p-1 px-2 h-fit">
-          # {tag.charAt(0).toLowerCase() + tag.slice(1)}
+        <div className="border border-black p-1 px-2 h-8">
+          <span> {"#" + tag.charAt(0).toLowerCase() + tag.slice(1)}</span>
         </div>
       ))}
     </div>

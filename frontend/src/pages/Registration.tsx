@@ -1,12 +1,37 @@
-import { FC } from "react";
+import { FC, useRef, useState } from "react";
 import Button from "../components/UI/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRegister, selectIsAuth } from "../redux/Slices/auth";
 import { useForm } from "react-hook-form";
 import { Navigate } from "react-router-dom";
+import axios from "../axios";
 
 const Registration: FC = () => {
   const isAuth = useSelector(selectIsAuth);
+  const [imageUrl, setImageUrl] = useState("");
+  const inputFileRef = useRef<HTMLInputElement>(null);
+
+  const handleChangeFile = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    try {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      console.log(1);
+      const formData = new FormData();
+      formData.append("image", file);
+      const { data } = await axios.post("/upload", formData);
+      setImageUrl(data.url);
+    } catch (error) {
+      console.warn(error);
+      alert("Ошибка загрузки файла!");
+    }
+  };
+
+  const onClickRemoveImage = () => {
+    setImageUrl("");
+  };
 
   const dispatch = useDispatch();
   const {
@@ -18,6 +43,7 @@ const Registration: FC = () => {
       fullName: "",
       email: "",
       password: "",
+      avatarUrl: "",
     },
     mode: "onChange",
   });
@@ -26,10 +52,15 @@ const Registration: FC = () => {
     email: string;
     password: string;
     fullName: string;
+    avatarUrl: string;
   }) => {
     if (!values.email || !values.password || !values.fullName) {
       return;
     }
+
+    values.avatarUrl = imageUrl;
+
+    console.log(values.avatarUrl);
 
     const data = await dispatch(fetchRegister(values) as any);
 
@@ -50,8 +81,38 @@ const Registration: FC = () => {
     <div className="flex flex-col gap-y-6 p-20 rounded-lg mx-auto  bg-white max-w-xl">
       <h5 className="text-center font-bold text-2xl mb-6">Создание аккаунта</h5>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6">
-        <div className="flex justify-center items-center mb-6">
-          <div className="w-20 h-20 bg-gray-300 rounded-full"></div>
+        <div className="flex justify-center items-center mb-6 flex-col gap-y-4">
+          {imageUrl ? (
+            <img
+              className="w-20 h-20 rounded-full object-cover"
+              src={`http://127.0.0.1:5554/${imageUrl}`}
+              alt="Uploaded"
+            />
+          ) : (
+            <div className="w-20 h-20 bg-gray-300 rounded-full"></div>
+          )}
+          <div className="flex gap-x-4">
+            <Button
+              classes="border mb-4 !bg-black !text-white py-2 px-5 w-fit"
+              onclick={() => inputFileRef.current!.click()}
+            >
+              Загрузить превью
+            </Button>
+            <input
+              ref={inputFileRef}
+              type="file"
+              onChange={handleChangeFile}
+              hidden
+            />
+            {imageUrl && (
+              <Button
+                classes="text-black rounded-md p-2 mb-4"
+                onclick={onClickRemoveImage}
+              >
+                Удалить
+              </Button>
+            )}
+          </div>
         </div>
         {errors.fullName && (
           <span className="text-red-500 text-sm">

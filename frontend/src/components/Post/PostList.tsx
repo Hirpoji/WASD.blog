@@ -45,8 +45,8 @@ const PostList: FC = () => {
         const isMainPost = index === 0;
         const commonPostClasses = isMainPost ? "col-span-2" : "col-span-1";
         const imgClasses = isMainPost
-          ? "rounded-l-2xl h-full object-cover"
-          : "rounded-t-2xl !h-80 object-cover";
+          ? "rounded-l-2xl"
+          : "rounded-t-2xl";
         const titleClasses = isMainPost ? "text-3xl" : "";
         const textClasses = isMainPost ? "!gap-y-10" : "";
         const postClasses = isMainPost

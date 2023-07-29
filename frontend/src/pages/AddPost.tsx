@@ -21,7 +21,6 @@ const AddPost: React.FC<AddPostProps> = () => {
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
   const inputFileRef = useRef<HTMLInputElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChangeFile = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -51,8 +50,6 @@ const AddPost: React.FC<AddPostProps> = () => {
 
   const onSubmit = async () => {
     try {
-      setIsLoading(true);
-
       const fields = {
         title,
         imageUrl,

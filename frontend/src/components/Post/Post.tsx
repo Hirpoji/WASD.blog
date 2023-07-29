@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { ObjectId } from "mongodb";
@@ -34,24 +34,23 @@ const Post: React.FC<PostProps> = ({
   textClasses,
   titleClasses,
 }) => {
-
-
   return (
-    <Link
-      to={`/post/${_id}`}
-      className={`bg-white rounded-2xl ${classes}`}
-    >
+    <Link to={`/post/${_id}`} className={`bg-white rounded-2xl ${classes}`}>
       <img
         src={imageUrl ? `http://127.0.0.1:5554/${imageUrl}` : ""}
-        className={`${imgClasses} h-full w-full object-cover`}
+        className={`${imgClasses} h-80 w-full object-cover`}
       />
       <div className={`py-6 px-7 gap-y-5 flex flex-col ${textClasses}`}>
         <div className="flex gap-x-3 items-center">
           <div className="w-[32px] h-[32px] overflow-hidden">
-            <img
-               src={`http://127.0.0.1:5554/${user.avatarUrl}`}
-              className="rounded-full w-full h-full object-fit"
-            />
+            {user.avatarUrl ? (
+              <img
+                src={`http://127.0.0.1:5554/${user.avatarUrl}`}
+                className="rounded-full w-full h-full object-fit"
+              />
+            ) : (
+              <div className="w-[32px] h-[32px] bg-gray-300 rounded-full"></div>
+            )}
           </div>
           <span className="font-medium">{user.fullName}</span>
         </div>

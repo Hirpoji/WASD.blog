@@ -67,7 +67,7 @@ app.delete("/posts/:id", checkAuth, remove);
 
 app.patch("/posts/:id", checkAuth, postValidator, handleValidationsError, update);
 
-app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
+app.post("/upload", upload.single("image"), (req, res) => {
   res.json({
     url: `uploads/${req.file.originalname}`,
   });
