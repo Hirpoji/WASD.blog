@@ -54,7 +54,7 @@ const Post: React.FC<PostProps> = ({
     >
       <Link to={`/post/${_id}`} className={`bg-white rounded-2xl ${classes}`}>
         <img
-          src={imageUrl ? `http://127.0.0.1:5554/${imageUrl}` : ""}
+          src={imageUrl ? `https://wasd-blog.onrender.com/${imageUrl}` : ""}
           className={`${imgClasses} h-full w-full object-cover`}
           alt={title}
         />
@@ -64,7 +64,7 @@ const Post: React.FC<PostProps> = ({
               <div className="w-[32px] h-[32px] overflow-hidden">
                 {user.avatarUrl ? (
                   <img
-                    src={`http://127.0.0.1:5554/${user.avatarUrl}`}
+                    src={`https://wasd-blog.onrender.com/${user.avatarUrl}`}
                     className="rounded-full w-full h-full object-cover"
                     alt={`${user.fullName}'s avatar`}
                   />

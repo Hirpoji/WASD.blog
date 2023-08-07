@@ -35,7 +35,7 @@ const UserBar: FC = () => {
     <div className="flex flex-col col-start-1 col-end-4 gap-y-5 bg-white rounded-2xl p-10 items-center h-fit">
       <img
         className="rounded-full h-40 w-40 object-cover"
-        src={`http://127.0.0.1:5554/${data.avatarUrl}`}
+        src={`https://wasd-blog.onrender.com/${data.avatarUrl}`}
       />
       <div className="font-bold text-2xl mb-10">{data.fullName}</div>
       <Link to="/">
