@@ -3,15 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import axios from "../../axios";
 import { RootState } from "../../redux/store";
-import { PostState, TagState } from "../../types";
 import { fetchTags } from "../../redux/Slices/tags";
-
-interface PostsState {
-  tags: {
-    items: TagState[];
-    status: "loading" | "loaded" | "error";
-  };
-}
 
 const TagsList: FC = () => {
   const dispatch = useDispatch();

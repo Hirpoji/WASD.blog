@@ -5,9 +5,9 @@ import Home from "./pages/Home";
 import AddPost from "./pages/AddPost";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchAuthMe, selectIsAuth } from "./redux/Slices/auth";
+import { fetchAuthMe } from "./redux/Slices/auth";
 import User from "./pages/User";
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
             <Route path="/addpost" element={<AddPost />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
-            <Route path="/user" element={<User/>}/>
+            <Route path="/user" element={<User />} />
           </Routes>
         </div>
       </div>

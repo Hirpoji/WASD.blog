@@ -94,7 +94,7 @@ const Post: React.FC<PostProps> = ({
           </div>
         </div>
       </Link>
-      {  location.pathname === "/user" && (
+      {  hovered && location.pathname === "/user" && (
         <>
           <button
             onClick={onClickRemove}

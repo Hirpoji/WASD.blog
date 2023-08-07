@@ -4,7 +4,7 @@ import "easymde/dist/easymde.min.css";
 import Button from "../components/UI/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAuthMe, selectIsAuth } from "../redux/Slices/auth";
-import { useNavigate, Navigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "../axios";
 import { UserState } from "../types";
 

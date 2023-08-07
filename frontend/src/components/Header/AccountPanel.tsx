@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { UserState } from "../../types";
 
 const AccountPanel: FC = () => {
-  const { data, status } = useSelector((state: UserState) => state.auth);
+  const { data } = useSelector((state: UserState) => state.auth);
 
   return (
     <div className={`col-start-9 col-end-13`}>

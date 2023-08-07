@@ -1,6 +1,5 @@
 import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ClipLoader } from "react-spinners";
 import { fetchPostsByCreatedAt } from "../../redux/Slices/posts";
 import Post from "../Post/Post";
 import { PostState, UserState } from "../../types";
@@ -15,23 +14,14 @@ interface RootStateType {
   };
 }
 
-const UserPostList: FC<{ setIsLoading: (isLoading: boolean) => void }> = ({
-  setIsLoading,
-}) => {
+const UserPostList: FC = () => {
   const dispatch = useDispatch();
-  const { items, status } = useSelector((state: RootStateType) => state.posts);
+  const { items } = useSelector((state: RootStateType) => state.posts);
   const data = useSelector((state: UserState) => state.auth.data);
-  
+
   useEffect(() => {
     dispatch(fetchPostsByCreatedAt() as any);
   }, [dispatch]);
-
-  useEffect(() => {
-    if (status === "loaded") {
-      setIsLoading(false);
-    }
-  }, [status, setIsLoading]);
-
 
   return (
     <div className="grid gap-x-5 items-stretch mb-10 gap-y-10 col-start-5 col-end-13">
