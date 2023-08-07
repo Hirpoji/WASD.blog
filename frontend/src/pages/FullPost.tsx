@@ -82,7 +82,7 @@ const FullPost: FC = () => {
         </div>
         <img
           src={`http://127.0.0.1:5554/${post.imageUrl}`}
-          className={` h-80 w-full object-cover rounded-xl`}
+          className={` h-[500px] w-full object-cover rounded-xl`}
         />
         <ReactMarkdown children={post.text} className="text-xl"></ReactMarkdown>
         <div className="flex items-center gap-x-5">

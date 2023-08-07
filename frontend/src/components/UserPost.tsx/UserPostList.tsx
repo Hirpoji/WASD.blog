@@ -21,11 +21,8 @@ const UserPostList: FC<{ setIsLoading: (isLoading: boolean) => void }> = ({
   const dispatch = useDispatch();
   const { items, status } = useSelector((state: RootStateType) => state.posts);
   const data = useSelector((state: UserState) => state.auth.data);
-
-  console.log(items);
-
+  
   useEffect(() => {
-    console.log(1);
     dispatch(fetchPostsByCreatedAt() as any);
   }, [dispatch]);
 
@@ -42,7 +39,7 @@ const UserPostList: FC<{ setIsLoading: (isLoading: boolean) => void }> = ({
         <div className="font-bold text-2xl">Ваши статьи</div>
       ) : null}
       {items.map((post, index) => {
-        // if (post.user.email === data.email) {
+        if (post.user.email === data.email) {
           return (
             <div key={index}>
               <Post
@@ -61,8 +58,8 @@ const UserPostList: FC<{ setIsLoading: (isLoading: boolean) => void }> = ({
               />
             </div>
           );
-        // }
-        // return null;
+        }
+        return null;
       })}
     </div>
   );

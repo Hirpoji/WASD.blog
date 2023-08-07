@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AiOutlineEye, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ObjectId } from "mongodb";
 import { useDispatch } from "react-redux";
 import { fetchRemovePost } from "../../redux/Slices/posts";
@@ -36,6 +36,7 @@ const Post: React.FC<PostProps> = ({
   textClasses,
   titleClasses,
 }) => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const [hovered, setHovered] = useState(false);
 
@@ -93,7 +94,7 @@ const Post: React.FC<PostProps> = ({
           </div>
         </div>
       </Link>
-      {hovered && (
+      {  location.pathname === "/user" && (
         <>
           <button
             onClick={onClickRemove}
@@ -102,7 +103,7 @@ const Post: React.FC<PostProps> = ({
             <AiOutlineDelete className="w-6 h-6" />
           </button>
           <Link
-            to={`/edit/${_id}`}
+            to={`/posts/${_id}/edit`}
             className="absolute top-5 right-12 text-blue-600 hover:text-blue-800 z-10"
           >
             <button>

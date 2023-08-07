@@ -1,26 +1,30 @@
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import Button from "../components/UI/Button";
-import { useSelector } from "react-redux";
-import { selectIsAuth } from "../redux/Slices/auth";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAuthMe, selectIsAuth } from "../redux/Slices/auth";
+import { useNavigate, Navigate, useParams } from "react-router-dom";
 import axios from "../axios";
+import { UserState } from "../types";
 
 interface AddPostProps {}
 
 const AddPost: React.FC<AddPostProps> = () => {
   const isAuth = useSelector(selectIsAuth);
 
-  if (!window.localStorage.getItem("token") && !isAuth) {
-    return <Navigate to="/" />;
-  }
+  const { id } = useParams();
+
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState("");
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
+  const authUser = useSelector((state: UserState) => state.auth.data);
+
+  const isEditing = Boolean(id);
 
   const handleChangeFile = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -57,18 +61,42 @@ const AddPost: React.FC<AddPostProps> = () => {
         text,
       };
 
-      const { data } = await axios.post("/posts", fields);
+      const { data } = isEditing
+        ? await axios.patch(`/posts/${id}`, fields)
+        : await axios.post("/posts", fields);
 
-      const id = data._id;
+      const _id = isEditing ? id : data._id;
 
-      console.log(id);
-
-      navigate(`/post/${id}`);
+      navigate(`/post/${_id}`);
     } catch (error) {
       console.warn(error);
       alert("Не удалось опубликовать пост");
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchAuthMe() as any);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!window.localStorage.getItem("token") && !isAuth) {
+      navigate("/");
+    } else if (id && authUser) {
+      axios
+        .get(`/posts/${id}`)
+        .then(({ data }) => {
+          if (authUser.email === data.user.email) {
+            setTitle(data.title);
+            setText(data.text);
+            setImageUrl(data.imageUrl);
+            setTags(data.tags.join(" "));
+          } else {
+            navigate("/");
+          }
+        })
+        .catch(() => console.warn("Ошибка при получении статьи"));
+    }
+  }, [dispatch, id, authUser, isAuth, navigate]);
 
   const options = useMemo(
     () => ({
@@ -126,6 +154,7 @@ const AddPost: React.FC<AddPostProps> = () => {
       <input
         className="border mb-4 border-gray-300 p-3 rounded-lg m-auto w-full"
         placeholder="Тэги"
+        value={tags}
         onChange={(event) => setTags(event.target.value)}
       />
       <SimpleMDE
@@ -139,7 +168,7 @@ const AddPost: React.FC<AddPostProps> = () => {
           classes="border mb-4 !bg-black !text-white py-2 px-5 w-fit"
           onclick={onSubmit}
         >
-          Опубликовать
+          {isEditing ? "Редактировать" : "Опубликовать"}
         </Button>
         <a href="/">
           <Button classes="border rounded-md p-2">Отмена</Button>
