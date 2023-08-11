@@ -141,7 +141,7 @@ const AddPost: React.FC<AddPostProps> = () => {
       {imageUrl && (
         <img
           className="w-full mb-4"
-          src={`http://127.0.0.1:5554/${imageUrl}`}
+          src={`http://localhost:5554/${imageUrl}`}
           alt="Uploaded"
         />
       )}

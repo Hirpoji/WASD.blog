@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 const instance: AxiosInstance = axios.create({
-  baseURL: "https://wasd-blog.onrender.com",
+  baseURL: "http://localhost:5554",
 });
 
 instance.interceptors.request.use((config) => {

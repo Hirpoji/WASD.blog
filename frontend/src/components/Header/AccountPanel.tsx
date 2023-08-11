@@ -17,7 +17,7 @@ const AccountPanel: FC = () => {
           <Button classes="flex gap-x-4">
             <span className="font-bold">{data.fullName}</span>
             <img
-              src={`https://wasd-blog.onrender.com/${data.avatarUrl}`}
+              src={`http://localhost:5554/${data.avatarUrl}`}
               className="w-10 h-10 object-cover rounded-full"
             />
           </Button>

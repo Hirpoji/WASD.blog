@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from "../axios";
 import { ClipLoader } from "react-spinners";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { ObjectId } from "mongodb";
 
 interface Post {
   title: string;
@@ -18,6 +19,17 @@ interface Post {
   viewsCount: string;
   createdAt: string;
   imageUrl: string;
+  comments: Array<Comment>;
+}
+
+interface Comment {
+  text: string;
+  user: {
+    avatarUrl: string;
+    fullName: string;
+  };
+  _id: ObjectId;
+  createdAt: string;
 }
 
 const FullPost: FC = () => {
@@ -29,22 +41,25 @@ const FullPost: FC = () => {
     createdAt: "",
     tags: [],
     imageUrl: "",
+    comments: [],
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  const { id } = useParams();
+
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    axios
-      .get(`/posts/${id}`)
-      .then((res) => {
-        setPost(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.warn(err);
-        console.log(1);
-      });
+    if (id !== undefined) {
+      axios
+        .get(`/posts/${id}`)
+        .then((res) => {
+          setPost(res.data);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
+    }
   }, [id]);
 
   if (isLoading) {
@@ -55,6 +70,10 @@ const FullPost: FC = () => {
     );
   }
 
+  const handleCommentAdded = () => {
+    location.reload();
+  };
+
   return (
     <div className="flex flex-col gap-y-20">
       <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-20">
@@ -63,8 +82,12 @@ const FullPost: FC = () => {
         </h1>
         <div className="flex gap-x-3 items-center">
           <img
-            src={post.user.avatarUrl ? `http://127.0.0.1:5554/${post.user.avatarUrl}` : ""}
-            className={`h-10 rounded-3xl w-10 object-fit`}
+            src={
+              post.user.avatarUrl
+                ? `http://localhost:5554/${post.user.avatarUrl}`
+                : ""
+            }
+            className={`h-10 rounded-3xl w-10 object-cover`}
           />
           <span className="font-medium">{post.user.fullName}</span>
         </div>
@@ -81,7 +104,7 @@ const FullPost: FC = () => {
           </div>
         </div>
         <img
-          src={`http://127.0.0.1:5554/${post.imageUrl}`}
+          src={`http://localhost:5554/${post.imageUrl}`}
           className={` h-[500px] w-full object-cover rounded-xl`}
         />
         <ReactMarkdown children={post.text} className="text-xl"></ReactMarkdown>
@@ -92,30 +115,12 @@ const FullPost: FC = () => {
           </div>
           <div className="flex items-center gap-x-2">
             <AiOutlineComment />
-            <span className="text-sm">1</span>
+            <span className="text-sm">{post.comments.length}</span>
           </div>
         </div>
       </div>
-      <CommentsBlock
-        items={[
-          {
-            user: {
-              fullName: "Вася Пупкин",
-              avatarUrl: "https://mui.com/static/images/avatar/1.jpg",
-            },
-            text: "Это тестовый комментарий 555555",
-          },
-          {
-            user: {
-              fullName: "Иван Иванов",
-              avatarUrl: "https://mui.com/static/images/avatar/2.jpg",
-            },
-            text: "When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top",
-          },
-        ]}
-        isLoading={false}
-      >
-        <AddComment />
+      <CommentsBlock items={post.comments}>
+        <AddComment postId={id as any} onCommentAdded={handleCommentAdded} />
       </CommentsBlock>
     </div>
   );
