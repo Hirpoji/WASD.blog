@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAuthMe } from "../redux/Slices/auth";
 import { selectIsAuth } from "../redux/Slices/auth";
 import { Navigate } from "react-router-dom";
-import UserPostList from "../components/UserPost.tsx/UserPostList";
-import UserBar from "../components/UserPost.tsx/UserBar";
+import UserPostList from "../components/User/UserPostList";
+import UserBar from "../components/User/UserBar";
 
 const User: FC = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const User: FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-y-6 ">
+    <div className="lg:grid lg:grid-cols-12 mb:grid mb:grid-cols-12 flex flex-col gap-y-6 ">
       <UserBar />
       <UserPostList />
     </div>

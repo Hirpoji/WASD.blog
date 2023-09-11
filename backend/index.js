@@ -11,14 +11,20 @@ import checkAuth from "./utils/checkAuth.js";
 import { login, register, getMe } from "./controllers/UserController.js";
 import {
   create,
+  createComment,
   getAll,
   getOne,
+  getPostsByTag,
   getTags,
+  getUserPosts,
   remove,
   update,
 } from "./controllers/PostContoller.js";
 
 import handleValidationsError from "./utils/handleValidationsError.js";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -34,12 +40,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:admin@cluster0.n3k1t5k.mongodb.net/wasdblog?retryWrites=true&w=majority"
-  )
-  .then(console.log("DB OK"))
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("DB OK"))
   .catch((err) => console.log(err));
 
+const port = process.env.PORT || 5554;
 
 app.use(express.json());
 
@@ -47,7 +52,7 @@ app.use(cors());
 
 app.use("/uploads", express.static("uploads"));
 
-const port = 5554;
+app.post("/posts/:postId/comments", checkAuth, createComment);
 
 app.get("/posts/tags", getTags);
 
@@ -65,7 +70,17 @@ app.get("/posts/:id", getOne);
 
 app.delete("/posts/:id", checkAuth, remove);
 
-app.patch("/posts/:id", checkAuth, postValidator, handleValidationsError, update);
+app.get("/posts/tag/:tag", getPostsByTag);
+
+app.patch(
+  "/posts/:id",
+  checkAuth,
+  postValidator,
+  handleValidationsError,
+  update
+);
+
+app.post("/:userId/posts", checkAuth, getUserPosts);
 
 app.post("/upload", upload.single("image"), (req, res) => {
   res.json({

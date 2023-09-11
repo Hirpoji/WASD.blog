@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchAuthMe } from "./redux/Slices/auth";
 import User from "./pages/User";
+import PostsListByTag from "./pages/PostsListByTag";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/user" element={<User />} />
+            <Route path={`/tag/:tag`} element={<PostsListByTag />} />
           </Routes>
         </div>
       </div>

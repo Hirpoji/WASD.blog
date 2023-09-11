@@ -114,8 +114,8 @@ const AddPost: React.FC<AddPostProps> = () => {
   );
 
   return (
-    <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-20">
-      <div className="flex gap-x-4">
+    <div className="flex flex-col gap-y-6 bg-white rounded-2xl lg:p-20 md:p-20 p-5">
+      <div className="flex gap-x-4 flex-wrap">
         <Button
           classes="border mb-4 !bg-black !text-white py-2 px-5 w-fit"
           onclick={() => inputFileRef.current!.click()}
@@ -153,7 +153,7 @@ const AddPost: React.FC<AddPostProps> = () => {
       />
       <input
         className="border mb-4 border-gray-300 p-3 rounded-lg m-auto w-full"
-        placeholder="Тэги"
+        placeholder="Тэги (не более 3)"
         value={tags}
         onChange={(event) => setTags(event.target.value)}
       />

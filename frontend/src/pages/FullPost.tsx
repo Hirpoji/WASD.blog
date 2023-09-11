@@ -70,14 +70,10 @@ const FullPost: FC = () => {
     );
   }
 
-  const handleCommentAdded = () => {
-    location.reload();
-  };
-
   return (
     <div className="flex flex-col gap-y-20">
-      <div className="flex flex-col gap-y-6 bg-white rounded-2xl p-20">
-        <h1 className="font-extrabold text-4xl leading-14 text-black col-span-12">
+      <div className="flex flex-col gap-y-6 bg-white rounded-2xl lg:p-20 md:p-20 p-5">
+        <h1 className="font-extrabold lg:text-4xl md:text-4xl text-2xl leading-14 text-black col-span-12">
           {post.title}
         </h1>
         <div className="flex gap-x-3 items-center">
@@ -92,22 +88,24 @@ const FullPost: FC = () => {
           <span className="font-medium">{post.user.fullName}</span>
         </div>
 
-        <div className="flex gap-x-5 text-gray-600">
+        <div className="flex gap-x-5 text-gray-600 flex-wrap">
           {post.tags.map((tag, index) => (
             <div className="flex gap-x-1 items-center" key={index}>
               # {tag.charAt(0).toLowerCase() + tag.slice(1)}
             </div>
           ))}
-          <span>|</span>
-          <div className="flex items-center">
-            {post.createdAt.replace(/T.*/, "")}
+          <div className="flex gap-x-5 text-gray-600 ">
+            <span>|</span>
+            <div className="flex items-center">
+              {post.createdAt.replace(/T.*/, "")}
+            </div>
           </div>
         </div>
         <img
           src={`http://localhost:5554/${post.imageUrl}`}
-          className={` h-[500px] w-full object-cover rounded-xl`}
+          className={` lg:h-[500px] md:h-[500px] h-60 w-full object-cover rounded-xl`}
         />
-        <ReactMarkdown children={post.text} className="text-xl"></ReactMarkdown>
+        <ReactMarkdown children={post.text} className="md:text-xl lg:text-xl text-l"></ReactMarkdown>
         <div className="flex items-center gap-x-5">
           <div className="flex items-center gap-x-2">
             <AiOutlineEye />
@@ -120,7 +118,7 @@ const FullPost: FC = () => {
         </div>
       </div>
       <CommentsBlock items={post.comments}>
-        <AddComment postId={id as any} onCommentAdded={handleCommentAdded} />
+        <AddComment postId={id as any} />
       </CommentsBlock>
     </div>
   );

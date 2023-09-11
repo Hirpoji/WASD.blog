@@ -72,7 +72,7 @@ const postsSlice = createSlice({
       .addCase(fetchRemovePost.pending, (state, action) => {
         state.items = state.items.filter(
           (post: PostState) =>
-            post._id.toString() !== action.meta.arg.toString() 
+            post._id.toString() !== action.meta.arg.toString()
         );
       });
   },

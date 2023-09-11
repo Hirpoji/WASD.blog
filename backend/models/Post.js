@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
 
+const CommentSchema = new mongoose.Schema({
+  text: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -10,10 +26,11 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    tags: {
-      type: Array,
-      default: [],
-    },
+    tags: [
+      {
+        type: String,
+      },
+    ],
     imageUrl: String,
     viewsCount: {
       type: Number,
@@ -24,6 +41,7 @@ const PostSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    comments: [CommentSchema],
   },
   {
     timestamps: true,

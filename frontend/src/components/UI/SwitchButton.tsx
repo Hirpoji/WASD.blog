@@ -15,7 +15,7 @@ const SwitchButtons: FC<SwitchButtonsProps> = ({
 }) => {
   return (
     <div className={`flex items-center gap-30 ${classes}`}>
-      <div className="flex gap-x-10">
+      <div className="flex lg:gap-x-10 md:gap-x-10 gap-x-8">
         {buttonsList.map((typeName: string, index: number) => {
           return (
             <Button

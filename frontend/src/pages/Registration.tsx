@@ -78,7 +78,7 @@ const Registration: FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-y-6 p-20 rounded-lg mx-auto  bg-white max-w-xl">
+    <div className="flex flex-col gap-y-6 lg:p-20 md:p-20 p-5  rounded-lg mx-auto  bg-white max-w-xl">
       <h5 className="text-center font-bold text-2xl mb-6">Создание аккаунта</h5>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6">
         <div className="flex justify-center items-center mb-6 flex-col gap-y-4">

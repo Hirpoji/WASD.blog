@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SwitchButtons from "../components/UI/SwitchButton";
-import PostList from "../components/Post/PostList";
+import PostsList from "../components/Post/PostsList";
 import { fetchTags } from "../redux/Slices/tags";
 import TagsList from "../components/Tags/TagsList";
 import {
@@ -42,7 +42,7 @@ const Home: FC = () => {
           classes="col-start-1 col-end-13"
         />
       </div>
-      {(value === buttonsList[0] || value === buttonsList[1]) && <PostList />}
+      {(value === buttonsList[0] || value === buttonsList[1]) && <PostsList />}
       {value === buttonsList[2] && <TagsList />}
     </div>
   );

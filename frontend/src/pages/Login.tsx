@@ -42,7 +42,7 @@ const Login: FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-y-6 p-20 rounded-lg mx-auto bg-white max-w-xl">
+    <div className="flex flex-col gap-y-6 lg:p-20 md:p-20 p-5  rounded-lg mx-auto bg-white max-w-xl">
       <h5 className="text-center font-bold text-2xl mb-6">Вход в аккаунт</h5>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6">
@@ -50,7 +50,7 @@ const Login: FC = () => {
           <span className="text-red-500 text-sm">{errors.email.message}</span>
         )}
         <input
-          className={`border mb-4 border-gray-300 p-3 rounded-lg m-auto max-w-lg w-full ${
+          className={`border lg:mb-4 mb:mb-5  border-gray-300 p-3 rounded-lg m-auto max-w-lg w-full ${
             errors.email ? "border-red-500" : ""
           }`}
           type="email"

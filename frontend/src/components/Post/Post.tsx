@@ -55,7 +55,7 @@ const Post: React.FC<PostProps> = ({
       <Link to={`/post/${_id}`} className={`bg-white rounded-2xl ${classes}`}>
         <img
           src={imageUrl ? `http://localhost:5554/${imageUrl}` : ""}
-          className={`${imgClasses} min-h-80 h-full w-full object-cover`}
+          className={`${imgClasses} min-h-full h-80 w-full object-cover`}
           alt={title}
         />
         <div className="py-6 px-7 gap-y-5 flex flex-col justify-between">
@@ -77,10 +77,10 @@ const Post: React.FC<PostProps> = ({
             <h2 className={`font-bold text-2xl ${titleClasses}`}>
               {title.slice(0, 50) + " ..."}
             </h2>
-            <div className="flex gap-x-5">
+            <div className="flex gap-x-5 flex-wrap gap-y-2">
               {tags.map((tag, index) => (
                 <div className="flex gap-x-1 items-center" key={index}>
-                  # {tag.charAt(0).toLowerCase() + tag.slice(1)}
+                  {"#" + tag.charAt(0).toLowerCase() + tag.slice(1)}
                 </div>
               ))}
             </div>
@@ -94,7 +94,7 @@ const Post: React.FC<PostProps> = ({
           </div>
         </div>
       </Link>
-      {  hovered && location.pathname === "/user" && (
+      {hovered && location.pathname === "/user" && (
         <>
           <button
             onClick={onClickRemove}
